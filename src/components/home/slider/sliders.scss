@@ -21,5 +21,9 @@
 	img {
 		object-fit: cover;
 		object-position: left center;
+
+		@media(min-width: 1200px){
+			object-position: right center;
+		}
 	}
 }
