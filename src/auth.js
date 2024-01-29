@@ -1,32 +1,37 @@
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 import { login } from "./services/auth-service";
-import credentials from "next-auth/providers/credentials";
 
+const config = {
+	providers: [
+		Credentials({
+			async authorize(credentials) {
+				const res = await login(credentials);
+				const data = await res.json();
+				console.log(data);
 
-const config={
-    providers:[
-        credentials({
-            //formdaki kullanici adi sifre buraya gelecek
-            async authorize(credentials){
-                const res =await login(credentials);
-                const data=await res.json();
+				if (!res.ok) return null;
 
-                console.log(data)
+				const payload = {
+					user: {...data},
+					accessToken: data.token.split(" ")[1]
+				}
+				
+				delete payload.user.token
 
-                if(!res.ok) return null;
-                return data ?? null;
+				return payload;
+			},
+		}),
+	],
+	callbacks: {
+		authorized({ auth, request: { nextUrl } }) {
+			console.log("AUTH",auth)
+			return true;
+		},
+	},
+	pages: {
+		signIn: "/login",
+	},
+};
 
-            }
-        })
-    ],
-    callbacks:{
-        authorized({auth,request:{nextUrl}}){
-            return true;
-        }
-    },
-    pages:{
-        signIn:"/login"
-    }
-
-}
-export const{handlers,auth,signIn,signOut}=NextAuth(config);
+export const { handlers, auth, signIn, signOut } = NextAuth(config);

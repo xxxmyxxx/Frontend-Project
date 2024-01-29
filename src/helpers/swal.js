@@ -1,14 +1,13 @@
 import Swal from "sweetalert2";
 
 export const swalAlert = (title, icon = "info", text = "") => {
-    // icon: error, success, info, warning, question
+	// icon: error, success, info, warning, question
 	Swal.fire({
 		title,
 		text,
 		icon,
 	});
 };
-
 
 export const swalConfirm = (
 	title,
