@@ -44,11 +44,11 @@ const UserMenuAuth = async ({ session }) => {
 				<div className="offcanvas-body">
 					<ul className="nav flex-column ">
 						{userMenu.map((item) => (
-							<li key={item.link}>
+							<li key={item.link} data-bs-dismiss="offcanvas">
 								<Link className="nav-link" href={item.link}>{item.title}</Link>
 							</li>
 						))}
-						<li>
+						<li data-bs-dismiss="offcanvas">
 							<LogoutBtn />
 						</li>
 					</ul>

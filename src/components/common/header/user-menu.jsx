@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import React from "react";
-import UsermenuAuth from "./user-menu-auth";
+import UserMenuAuth from "./user-menu-auth";
 import UserMenuGuest from "./user-menu-guest";
 
 const UserMenu = async () => {
@@ -8,7 +8,7 @@ const UserMenu = async () => {
 	return (
 		<div>
 			{session?.user ? (
-				<UsermenuAuth session={session} />
+				<UserMenuAuth session={session} />
 			) : (
 				<UserMenuGuest />
 			)}

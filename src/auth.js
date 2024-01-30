@@ -38,7 +38,6 @@ const config = {
 				if(isOnLoginPage){
 					return Response.redirect(new URL('/dashboard', nextUrl))
 				}
-
 			}
 			else if(isOnDashboardPage){
 				return false
@@ -49,13 +48,13 @@ const config = {
 			return true;
 		},
 
-		//Next-auth JWT datasina ihtiyac duyan her route icin bu callback cagrilir
+		//JWT datasina ihtiyac duyan her route icin bu callback cagrilir
 		async jwt({token, user}){
 			console.log("TOKEN:", token)
 			console.log("USER:", user)
 			return {...user, ...token}
 		},
-
+		//Session datasina ihtiyac duyan her route icin bu callback cagrilir
 		async session({session, token}){
 			console.log("SESSION:", session)
 			console.log("TOKEN:", token);
