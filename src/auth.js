@@ -8,7 +8,6 @@ const config = {
 			async authorize(credentials) {
 				const res = await login(credentials);
 				const data = await res.json();
-				console.log(data);
 
 				if (!res.ok) return null;
 
@@ -18,7 +17,6 @@ const config = {
 					accessToken: data.token.split(" ")[1]
 				}
 				delete payload.user.token
-				console.log(payload)
 				return payload;
 			},
 		}),
@@ -30,8 +28,8 @@ const config = {
 			const isOnLoginPage = nextUrl.pathname.startsWith("/login")
 			const isOnDashboardPage = nextUrl.pathname.startsWith("/dashboard")
 
-			console.log(`isLoggedIn:`, isLoggedIn)
-			console.log(`isOnLoginPage:`, isOnLoginPage)
+			//console.log(`isLoggedIn:`, isLoggedIn)
+			//console.log(`isOnLoginPage:`, isOnLoginPage)
 
 			if(isLoggedIn){
 
@@ -43,21 +41,17 @@ const config = {
 				return false
 			}
 
-			console.log("AUTH",auth)
+			//console.log("AUTH",auth)
 			//console.log(auth?.user ? "Login olmus" : "login olmamis")
 			return true;
 		},
 
 		//JWT datasina ihtiyac duyan her route icin bu callback cagrilir
 		async jwt({token, user}){
-			console.log("TOKEN:", token)
-			console.log("USER:", user)
 			return {...user, ...token}
 		},
 		//Session datasina ihtiyac duyan her route icin bu callback cagrilir
 		async session({session, token}){
-			console.log("SESSION:", session)
-			console.log("TOKEN:", token);
 
 			session.accessToken = token.accessToken;
 			session.user = token.user;

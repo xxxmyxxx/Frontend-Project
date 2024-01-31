@@ -8,5 +8,6 @@ export const getAuthHeader = async () => {
 	if (token) {
 		authHeader = { Authorization: `Bearer ${token}`, ...authHeader };
 	}
+    
 	return authHeader;
 };
