@@ -1,4 +1,4 @@
-const { auth } = require("@/auth");
+import { auth } from "@/auth";
 
 export const getAuthHeader = async () => {
 	const session = await auth();
@@ -8,6 +8,6 @@ export const getAuthHeader = async () => {
 	if (token) {
 		authHeader = { Authorization: `Bearer ${token}`, ...authHeader };
 	}
-    
+
 	return authHeader;
 };

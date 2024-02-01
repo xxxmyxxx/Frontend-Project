@@ -52,7 +52,6 @@ const config = {
 		},
 		//Session datasina ihtiyac duyan her route icin bu callback cagrilir
 		async session({session, token}){
-
 			session.accessToken = token.accessToken;
 			session.user = token.user;
 			return session;
