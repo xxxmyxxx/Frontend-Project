@@ -135,14 +135,33 @@ const DataTable = ({
 								return (
 									<Row key={`row-${row[dataKey]}`}>
 										{columns.map((column) => {
-											const { field, index, title } =
-												column.props;
+											const {
+												field,
+												index,
+												title,
+												template,
+											} = column.props;
 											let cellData = "";
 
 											if (index) {
-												cellData = indexRow + 1;
+												cellData =
+													pageSize * pageNumber +
+													indexRow +
+													1;
 											} else if (field) {
 												cellData = row[field];
+											} else if (template) {
+												console.log(typeof template);
+												if (
+													typeof template !==
+													"function"
+												) {
+													throw new Error(
+														"template prop must be a function"
+													);
+												}
+
+												cellData = template(row);
 											}
 
 											return (

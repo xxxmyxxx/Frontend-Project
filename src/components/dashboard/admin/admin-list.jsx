@@ -5,6 +5,11 @@ import React from "react";
 const AdminList = ({ data }) => {
 	const { content, totalPages, number, size } = data;
 
+	const handleToolbar = (row) => {
+		console.log(row);
+		return <button>Del</button>;
+	};
+
 	return (
 		<div className="container">
 			<Link href="/dashboard/admin/new" className="btn btn-primary mb-3">
@@ -23,6 +28,7 @@ const AdminList = ({ data }) => {
 				<Column title="First Name" field="name" />
 				<Column title="Last Name" field="surname" />
 				<Column title="Username" field="username" />
+				<Column title="Tools" template={handleToolbar} />
 			</DataTable>
 		</div>
 	);

@@ -11,8 +11,6 @@ const AdminPage = async ({ searchParams }) => {
 	const data = await res.json();
 	if (!res.ok) throw new Error(data.message);
 
-	console.log(data)
-
 	return (
 		<>
 			<PageHeader title="Admin" />
