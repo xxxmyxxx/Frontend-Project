@@ -7,7 +7,6 @@ const AdminList = ({ data }) => {
 	const { content, totalPages, number, size } = data;
 
 	const handleToolbar = (row) => {
-		console.log(row);
 		return <AdminToolbar row={row}/>;
 	};
 

@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { config } from "./config";
 
 export const getAuthHeader = async () => {
 	const session = await auth();
@@ -10,4 +11,13 @@ export const getAuthHeader = async () => {
 	}
 
 	return authHeader;
+};
+
+export const isUserAuthorized = (role, url) => {
+	const menu = config.userRightsOnRoutes.find((item) =>
+		item.urlRegex.test(url)
+	);
+
+	if (!menu) return false;
+	return menu.rights.includes(role);
 };

@@ -1,18 +1,19 @@
 "use client";
-import { deleteAdminAction } from "@/actions/admin-actions";
+import { deleteManagerAction } from "@/actions/manager-actions";
 import { swalAlert, swalConfirm } from "@/helpers/swal";
+import Link from "next/link";
 import React from "react";
-import { TfiTrash } from "react-icons/tfi";
+import { TfiPencil, TfiTrash } from "react-icons/tfi";
 
-const AdminToolbar = ({ row }) => {
-	const { id, built_in } = row;
+const ManagerToolbar = ({ row }) => {
+	const { userId, built_in } = row;
 
 	const handleDelete = async () => {
 		const res = await swalConfirm("Are you sure to delete?");
 		if (!res.isConfirmed) return;
 
 		try {
-			const res = await deleteAdminAction(id);
+			const res = await deleteManagerAction(userId);
 		} catch (err) {
 			console.log(err);
 			swalAlert(err.message, "error");
@@ -23,6 +24,14 @@ const AdminToolbar = ({ row }) => {
 
 	return (
 		<div>
+			<Link
+				type="button"
+				className="btn btn-link"
+				href={`/dashboard/manager/${userId}`}
+			>
+				<TfiPencil />
+			</Link>
+
 			<button
 				type="button"
 				className="btn btn-link"
@@ -34,4 +43,4 @@ const AdminToolbar = ({ row }) => {
 	);
 };
 
-export default AdminToolbar;
+export default ManagerToolbar;

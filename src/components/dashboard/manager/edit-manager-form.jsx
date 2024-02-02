@@ -1,5 +1,5 @@
 "use client";
-import { createManagerAction } from "@/actions/manager-actions";
+import { updateManagerAction } from "@/actions/manager-actions";
 import CancelButton from "@/components/common/form-fields/cancel-button";
 import SubmitButton from "@/components/common/form-fields/submit-button";
 import { config } from "@/helpers/config";
@@ -7,16 +7,20 @@ import { initialResponse, isInvalid } from "@/helpers/form-validation";
 import { useFormState } from "react-dom";
 import InputMask from "react-input-mask-next";
 
-const NewManagerForm = () => {
-	const [state, dispatch] = useFormState(createManagerAction, initialResponse);
+const EditManagerForm = ({ data }) => {
+	const [state, dispatch] = useFormState(
+		updateManagerAction,
+		initialResponse
+	);
 
 	return (
 		<div className="container ">
 			<div className="card">
 				<div className="card-body">
-					<div className="card-title">New</div>
+					<div className="card-title">Edit</div>
 
 					<form action={dispatch} noValidate>
+						<input type="hidden" name="userId" value={data.userId}/>
 						<div className="row row-cols-1 row-cols-md-2 row-cols-xl-3">
 							<div className="col">
 								<div className="form-floating mb-3">
@@ -28,6 +32,7 @@ const NewManagerForm = () => {
 										id="name"
 										name="name"
 										placeholder="First Name"
+										defaultValue={data.name}
 									/>
 									<label htmlFor="name">First Name</label>
 									<div className="invalid-feedback">
@@ -45,6 +50,7 @@ const NewManagerForm = () => {
 										id="surname"
 										name="surname"
 										placeholder="Last Name"
+										defaultValue={data.surname}
 									/>
 									<label htmlFor="surname">Last Name</label>
 									<div className="invalid-feedback">
@@ -60,6 +66,7 @@ const NewManagerForm = () => {
 										)}`}
 										id="gender"
 										name="gender"
+										defaultValue={data.gender}
 									>
 										<option value="">Select</option>
 										{config.genders.map((item) => (
@@ -87,6 +94,7 @@ const NewManagerForm = () => {
 										id="birthDay"
 										name="birthDay"
 										placeholder="Birthdate"
+										defaultValue={data.birthDay}
 									/>
 									<label htmlFor="birthDay">Birthdate</label>
 									<div className="invalid-feedback">
@@ -104,6 +112,7 @@ const NewManagerForm = () => {
 										id="birthPlace"
 										name="birthPlace"
 										placeholder="Place of birth"
+										defaultValue={data.birthPlace}
 									/>
 									<label htmlFor="birthPlace">
 										Place of birth
@@ -123,6 +132,7 @@ const NewManagerForm = () => {
 										name="phoneNumber"
 										placeholder="Phone number"
 										mask="999-999-9999"
+										defaultValue={data.phoneNumber}
 									/>
 									<label htmlFor="phoneNumber">
 										Phone number
@@ -142,6 +152,7 @@ const NewManagerForm = () => {
 										name="ssn"
 										placeholder="SSN"
 										mask="999-99-9999"
+										defaultValue={data.ssn}
 									/>
 									<label htmlFor="ssn">SSN</label>
 									<div className="invalid-feedback">
@@ -159,6 +170,7 @@ const NewManagerForm = () => {
 										id="username"
 										name="username"
 										placeholder="Username"
+										defaultValue={data.username}
 									/>
 									<label htmlFor="username">Username</label>
 									<div className="invalid-feedback">
@@ -207,7 +219,7 @@ const NewManagerForm = () => {
 
 						<div className="d-flex align-items-center justify-content-center gap-3">
 							<CancelButton />
-							<SubmitButton title="Create" />
+							<SubmitButton title="Update" />
 						</div>
 					</form>
 				</div>
@@ -216,4 +228,4 @@ const NewManagerForm = () => {
 	);
 };
 
-export default NewManagerForm;
+export default EditManagerForm;
