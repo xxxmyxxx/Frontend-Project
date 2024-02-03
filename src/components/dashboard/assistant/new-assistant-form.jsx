@@ -1,5 +1,5 @@
 "use client";
-import { createAdminAction } from "@/actions/admin-actions";
+import { createAssistantAction } from "@/actions/assistant-actions";
 import CancelButton from "@/components/common/form-fields/cancel-button";
 import SubmitButton from "@/components/common/form-fields/submit-button";
 import { config } from "@/helpers/config";
@@ -7,20 +7,17 @@ import { initialResponse, isInvalid } from "@/helpers/form-validation";
 import { useFormState } from "react-dom";
 import InputMask from "react-input-mask-next";
 
-const NewAdminForm = () => {
-	const [state, dispatch] = useFormState(createAdminAction, initialResponse);
+const NewAssistantForm = () => {
+	const [state, dispatch] = useFormState(
+		createAssistantAction,
+		initialResponse
+	);
 
 	return (
 		<div className="container ">
 			<div className="card">
 				<div className="card-body">
 					<div className="card-title">New</div>
-
-					{state?.message ? (
-						<div className="alert alert-danger">
-							{state.message}
-						</div>
-					) : null}
 
 					<form action={dispatch} noValidate>
 						<div className="row row-cols-1 row-cols-md-2 row-cols-xl-3">
@@ -222,4 +219,4 @@ const NewAdminForm = () => {
 	);
 };
 
-export default NewAdminForm;
+export default NewAssistantForm;

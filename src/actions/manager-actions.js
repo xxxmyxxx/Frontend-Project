@@ -5,7 +5,12 @@ import {
 	getYupErrors,
 	response,
 } from "@/helpers/form-validation";
-import { createManager, deleteManager, updateManager } from "@/services/manager-service";
+import { getGenderValues } from "@/helpers/misc";
+import {
+	createManager,
+	deleteManager,
+	updateManager,
+} from "@/services/manager-service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import * as Yup from "yup";
@@ -14,7 +19,7 @@ const FormSchema = Yup.object({
 	name: Yup.string().required("Required"),
 	surname: Yup.string().required("Required"),
 	gender: Yup.string()
-		.oneOf(["MALE", "FEMALE"], "Invalid gender")
+		.oneOf(getGenderValues(), "Invalid gender")
 		.required("Required"),
 	birthPlace: Yup.string().required("Required"),
 	birthDay: Yup.string().required("Required"),
@@ -58,7 +63,7 @@ export const createManagerAction = async (prevState, formData) => {
 	}
 
 	revalidatePath("/dashboard/manager");
-	redirect("/dashboard/manager?success=true");
+	redirect(`/dashboard/manager?msg=${encodeURI("Manager was created")}`);
 };
 
 export const updateManagerAction = async (prevState, formData) => {
@@ -82,18 +87,19 @@ export const updateManagerAction = async (prevState, formData) => {
 	}
 
 	revalidatePath("/dashboard/manager");
-	redirect("/dashboard/manager?success=true");
+	redirect(`/dashboard/manager?msg=${encodeURI("Manager was updated")}`);
 };
 
 export const deleteManagerAction = async (id) => {
 	if (!id) throw new Error("id is missing");
 
 	const res = await deleteManager(id);
-	const data = res.json();
+	const data = await res.json();
 
 	if (!res.ok) {
 		throw new Error(data.message);
 	}
 
 	revalidatePath("/dashboard/manager");
+	redirect(`/dashboard/manager?msg=${encodeURI("Manager was deleted")}`);
 };

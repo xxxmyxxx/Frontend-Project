@@ -6,7 +6,7 @@ import {
 	response,
 } from "@/helpers/form-validation";
 import { getGenderValues } from "@/helpers/misc";
-import { createAdmin, deleteAdmin } from "@/services/admin-service";
+import { createAssistant, deleteAssistant, updateAssistant } from "@/services/assistant-service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import * as Yup from "yup";
@@ -38,17 +38,17 @@ const FormSchema = Yup.object({
 	),
 });
 
-export const createAdminAction = async (prevState, formData) => {
+export const createAssistantAction = async (prevState, formData) => {
 	try {
 		const fields = convertFormDataToJson(formData);
 
 		FormSchema.validateSync(fields, { abortEarly: false });
 
-		const res = await createAdmin(fields);
+		const res = await createAssistant(fields);
 		const data = await res.json();
 
 		if (!res.ok) {
-			return response(false, data?.message, data?.validations);
+			return response(false, "", data?.validations);
 		}
 	} catch (err) {
 		if (err instanceof Yup.ValidationError) {
@@ -58,22 +58,44 @@ export const createAdminAction = async (prevState, formData) => {
 		throw err;
 	}
 
-	revalidatePath("/dashboard/admin");
-	redirect(`/dashboard/admin?msg=${encodeURI("Admin was created")}`);
-	
+	revalidatePath("/dashboard/assistant-manager");
+	redirect(`/dashboard/assistant-manager?msg=${encodeURI("Assistant was created")}`);
 };
 
-export const deleteAdminAction = async (id) => {
-	if (!id) throw new Error("id is missing");
+export const updateAssistantAction = async (prevState, formData) => {
+	try {
+		const fields = convertFormDataToJson(formData);
 
-	const res = await deleteAdmin(id);
-	//const data = await res.json();
-	// Backend den json tipinde olmayan bir mesaj geldi[i icin hata veriyor]
-	
-	if (!res.ok) {
-		throw new Error('Something went wrong');
+		FormSchema.validateSync(fields, { abortEarly: false });
+
+		const res = await updateAssistant(fields);
+		const data = await res.json();
+
+		if (!res.ok) {
+			return response(false, "", data?.validations);
+		}
+	} catch (err) {
+		if (err instanceof Yup.ValidationError) {
+			return getYupErrors(err.inner);
+		}
+
+		throw err;
 	}
 
-	revalidatePath("/dashboard/admin");
-	redirect(`/dashboard/admin?msg=${encodeURI("Admin was deleted")}`);
+	revalidatePath("/dashboard/assistant-manager");
+	redirect(`/dashboard/assistant-manager?msg=${encodeURI("Assistant was updated")}`);
+};
+
+export const deleteAssistantAction = async (id) => {
+	if (!id) throw new Error("id is missing");
+
+	const res = await deleteAssistant(id);
+	const data = await res.json();
+
+	if (!res.ok) {
+		throw new Error(data.message);
+	}
+
+	revalidatePath("/dashboard/assistant-manager");
+	redirect(`/dashboard/assistant-manager?msg=${encodeURI("Assistant was deleted")}`);
 };
