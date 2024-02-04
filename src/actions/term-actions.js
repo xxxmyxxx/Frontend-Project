@@ -1,6 +1,5 @@
 "use server";
 
-import { config } from "@/helpers/config";
 import {
 	convertFormDataToJson,
 	getYupErrors,
@@ -35,7 +34,7 @@ export const createTermAction = async (prevState, formData) => {
 		const data = await res.json();
 
 		if (!res.ok) {
-			return response(false, "", data?.validations);
+			return response(false, data?.message, data?.validations);
 		}
 	} catch (err) {
 		if (err instanceof Yup.ValidationError) {
