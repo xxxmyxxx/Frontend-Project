@@ -1,5 +1,6 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 export const Column = ({ title }) => {
 	return <th scope="col">{title}</th>;
@@ -97,16 +98,26 @@ const DataTable = ({
 	pageNumber,
 	pageSize,
 	children,
+	selectionMode, // sigle | multiple | none
+	selection, // update yapilarinda onceden secili olarak gelmesi istenilen elemanlarin listesi
 }) => {
-	// children korumali bir prop oldugu icin uzerinde degisiklik yapmaya izin vermez
-	// degisiklik yapabilmek icin kopyasini olusturduk
+	const [selectedItem, setSelectedItem] = useState(selection ?? []);
 
 	if (!dataSource) throw new Error("dataSource attribute is required");
 	if (!Array.isArray(dataSource))
 		throw new Error("dataSource value must be an array");
 	if (!dataKey) throw new Error("dataKey attribute is required");
 
+	// children korumali bir prop oldugu icin uzerinde degisiklik yapmaya izin vermez
+	// degisiklik yapabilmek icin kopyasini olusturduk
 	const columns = [...children];
+
+	if (!pageSize) pageSize = 0;
+	if (!pageNumber) pageNumber = 0;
+
+	if (selectionMode && selectionMode !== "none") {
+		columns.splice(1, 0, <Column selectionMode={selectionMode} />);
+	}
 
 	return (
 		<div className="card">
@@ -140,6 +151,7 @@ const DataTable = ({
 												index,
 												title,
 												template,
+												selectionMode,
 											} = column.props;
 											let cellData = "";
 
@@ -148,6 +160,14 @@ const DataTable = ({
 													pageSize * pageNumber +
 													indexRow +
 													1;
+											} else if (
+												selectionMode &&
+												selectionMode !== "none"
+											) {
+												cellData =
+													selection === "single"
+														? "Single"
+														: "multiple";
 											} else if (field) {
 												cellData = row[field];
 											} else if (template) {
