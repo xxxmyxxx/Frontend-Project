@@ -68,7 +68,7 @@ const PageButton = ({ totalPages, pageNumber }) => {
 
 	const startPage = Math.max(
 		0,
-		pageNumber - Math.floor(totalAmountOfButton / 2)
+		pageNumber - Math.floor(totalAmountOfButton / 2),
 	);
 	const endPage = Math.min(totalPages, startPage + totalAmountOfButton);
 

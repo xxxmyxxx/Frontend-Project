@@ -1,5 +1,6 @@
 "use server";
 
+import { isAfter } from "@/helpers/date-time";
 import {
 	convertFormDataToJson,
 	getYupErrors,
@@ -34,8 +35,8 @@ export const createProgramAction = async (prevState, formData) => {
 
 		const payload = {
 			...fields,
-			lessonIdList: JSON.parse(fields.lessonIdList)
-		}
+			lessonIdList: JSON.parse(fields.lessonIdList),
+		};
 
 		const res = await createProgram(payload);
 		const data = await res.json();

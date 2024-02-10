@@ -3,6 +3,7 @@ import { assignProgramAction } from "@/actions/teacher-actions";
 import DataTable, { Column } from "@/components/common/form-fields/data-table";
 import SubmitButton from "@/components/common/form-fields/submit-button";
 import Spacer from "@/components/common/misc/spacer";
+import { formatTimeLT } from "@/helpers/date-time";
 import { initialResponse, isInvalid } from "@/helpers/form-validation";
 import { useFormState } from "react-dom";
 
@@ -15,6 +16,9 @@ const UnAssignedProgramList = ({ programs, teachers }) => {
 	const handleLessonNames = (row) => {
 		return row.lessonName.map((item) => item.lessonName).join("-");
 	};
+
+	const handleTime = (row) =>
+		`${formatTimeLT(row.startTime)} - ${formatTimeLT(row.stopTime)}`;
 
 	return (
 		<div className="container">
@@ -30,8 +34,7 @@ const UnAssignedProgramList = ({ programs, teachers }) => {
 					<Column index={true} title="#" />
 					<Column title="Lessons" template={handleLessonNames} />
 					<Column title="Day" field="day" />
-					<Column title="Start" field="startTime" />
-					<Column title="End" field="stopTime" />
+					<Column title="Start/End" template={handleTime} />
 				</DataTable>
 				<Spacer height={15} />
 				<div className="input-group mb-3">
