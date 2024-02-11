@@ -37,31 +37,39 @@ const UnAssignedProgramList = ({ programs, teachers }) => {
 					<Column title="Start/End" template={handleTime} />
 				</DataTable>
 				<Spacer height={15} />
-				<div className="input-group mb-3">
-					<div className="form-floating">
-						<select
-							className={`form-select ${isInvalid(
-								state?.errors?.teacherId
-							)}`}
-							id="teacherId"
-							name="teacherId"
-							aria-label="Select teacher"
-						>
-							<option value="" selected>
-								Select
-							</option>
-							{teachers.map((item) => (
-								<option value={item.userId} key={item.userId}>
-									{item.name} {item.surname}
-								</option>
-							))}
-						</select>
-						<label htmlFor="floatingSelect">Teacher</label>
-						<div className="invalid-feedback">
-							{state?.errors?.teacherId}
+				<div>
+					<div className="input-group mb-3">
+						<div className="form-floating">
+							<select
+								className={`form-select ${isInvalid(
+									state?.errors?.teacherId
+								)}`}
+								id="teacherId"
+								name="teacherId"
+								aria-label="Select teacher"
+								defaultValue=""
+							>
+								<option value="">Select</option>
+								{teachers.map((item) => (
+									<option
+										value={item.userId}
+										key={item.userId}
+									>
+										{item.name} {item.surname}
+									</option>
+								))}
+							</select>
+							<label htmlFor="floatingSelect">Teacher</label>
 						</div>
+						<SubmitButton title="Assign" />
 					</div>
-					<SubmitButton title="Assign" />
+					<div
+						className={`invalid-feedback ${
+							state?.errors?.teacherId ? "d-block" : "d-none"
+						}`}
+					>
+						{state?.errors?.teacherId}
+					</div>
 				</div>
 			</form>
 		</div>

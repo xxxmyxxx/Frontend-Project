@@ -6,7 +6,7 @@ import React from "react";
 
 const UnAuthorization = () => {
 	const handleLogout = async () => {
-		const resp = await swalConfirm("Are you sure to logout?");
+		const resp = await swalConfirm("Are you sure to logout");
 		if (!resp.isConfirmed) return;
 
 		signOut({ callbackUrl: "/login" });

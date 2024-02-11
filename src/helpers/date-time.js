@@ -16,4 +16,9 @@ export const formatTimeHHmm = (time) => {
 	return moment(time, "HH:mm:ss").format("HH:mm");
 };
 
+export const isAfter = (startTime, endTime) => {
+	const st = moment(startTime, "HH:mm");
+	const et = moment(endTime, "HH:mm");
 
+	return et.isAfter(st);
+};

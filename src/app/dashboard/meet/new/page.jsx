@@ -17,7 +17,7 @@ const NewMeetPage = async () => {
 
 	return (
 		<>
-			<PageHeader title="New Student" />
+			<PageHeader title="New Meet" />
 			<Spacer height={50} />
 			<NewMeetForm students={students} />
 			<Spacer />
